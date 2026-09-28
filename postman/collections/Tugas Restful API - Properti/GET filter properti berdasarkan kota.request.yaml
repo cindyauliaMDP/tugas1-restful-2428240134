@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://localhost:3000/properties?kota=Jakarta
+method: GET
+queryParams:
+  kota: Jakarta
+order: 2000
