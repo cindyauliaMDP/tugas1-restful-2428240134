@@ -1,4 +1,4 @@
 $kind: http-request
 url: http://localhost:3000/properties
 method: GET
-order: 3000
+order: 2379

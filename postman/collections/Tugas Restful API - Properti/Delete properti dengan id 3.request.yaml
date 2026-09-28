@@ -1,0 +1,19 @@
+$kind: http-request
+url: http://localhost:3000/properties/3
+method: DELETE
+body:
+  type: json
+  content: "{\r
+
+    \    \"judul\": \"Rumah Minimalis Mewah\",\r
+
+    \    \"tipe\": \"rumah\",\r
+
+    \    \"kota\": \"Surabaya\",\r
+
+    \    \"luasM2\": 150,\r
+
+    \    \"harga\": 1500000000\r
+
+    }"
+order: 5000

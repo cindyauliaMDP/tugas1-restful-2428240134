@@ -5,6 +5,23 @@ const PORT = 3000;
 
 app.use(express.json());
 
+// GET informasi API
+app.get('/', (req, res) => {
+    res.json({
+        nama: "Cindy Aulia",
+        nim: "2428240134",
+        topik: 22,
+        endpoint: [
+            "GET /properties",
+            "GET /properties/:id",
+            "GET /properties?kota=Surabaya",
+            "POST /properties",
+            "PUT /properties/:id",
+            "DELETE /properties/:id"
+        ]
+    });
+});
+
 // Data awal properti
 let properties = [
     {
@@ -67,6 +84,14 @@ app.get('/properties/:id', (req, res) => {
 app.post('/properties', (req, res) => {
     const { judul, tipe, kota, luasM2, harga } = req.body;
 
+    if (!judul || !tipe || !kota || luasM2 === undefined || harga === undefined) {
+        return res.status(400).json({
+            status: "error",
+            message: "Semua field wajib diisi",
+            data: null
+        });
+    }
+
     const property = {
         id: nextId,
         judul,
@@ -79,7 +104,81 @@ app.post('/properties', (req, res) => {
     properties.push(property);
     nextId++;
 
-    res.status(201).json(property);
+    res.status(201).json({
+        status: "success",
+        message: "Property berhasil ditambahkan",
+        data: property
+    });
+});
+
+// PUT property berdasarkan id
+app.put('/properties/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const property = properties.find((property) => property.id === id);
+
+    if (!property) {
+        return res.status(404).json({
+            status: "error",
+            message: "Property tidak ditemukan",
+            data: null
+        });
+    }
+
+    const { judul, tipe, kota, luasM2, harga } = req.body;
+
+    if (!judul || !tipe || !kota || luasM2 === undefined || harga === undefined) {
+        return res.status(400).json({
+            status: "error",
+            message: "Semua field wajib diisi",
+            data: null
+        });
+    }
+
+    property.judul = judul;
+    property.tipe = tipe;
+    property.kota = kota;
+    property.luasM2 = luasM2;
+    property.harga = harga;
+
+    res.json({
+        status: "success",
+        message: "Property berhasil diperbarui",
+        data: property
+    });
+});
+
+// DELETE property berdasarkan id
+app.delete('/properties/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const index = properties.findIndex((property) => property.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({
+            status: "error",
+            message: "Property tidak ditemukan"
+        });
+    }
+
+    const property = properties[index];
+
+    properties.splice(index, 1);
+
+    res.json({
+        status: "success",
+        message: "Property berhasil dihapus",
+        data: property
+    });
+});
+
+// 404 jika endpoint tidak ditemukan
+app.use((req, res) => {
+    res.status(404).json({
+        status: "error",
+        message: "Endpoint tidak ditemukan",
+        data: null
+    });
 });
 
 app.listen(PORT, () => {

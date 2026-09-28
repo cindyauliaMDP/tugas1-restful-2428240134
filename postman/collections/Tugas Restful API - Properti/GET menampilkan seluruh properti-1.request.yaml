@@ -1,0 +1,20 @@
+$kind: http-request
+name: GET menampilkan seluruh properti
+url: http://localhost:3000/properties
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"judul\": \"Rumah Modern Malang\",\r
+
+    \    \"tipe\": \"rumah\",\r
+
+    \    \"kota\": \"Malang\",\r
+
+    \    \"luasM2\": 90,\r
+
+    \    \"harga\": 750000000\r
+
+    }"
+order: 1000
